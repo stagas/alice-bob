@@ -83,6 +83,18 @@ describe('send', () => {
       new TypeError('local.send(payload) method must be provided.')
     )
   })
+
+  it('deferred send should work', () => {
+    interface Remote {
+      hello: (arg: string) => void
+    }
+    const [alice, bob] = new AliceBob<void, Remote>().agents()
+    const fn = jest.fn()
+    alice.deferredSend = () => fn
+    bob.hello('there')
+    expect(fn).toBeCalledTimes(1)
+    expect(fn).toBeCalledWith({ id: 0, method: 'hello', args: ['there'] })
+  })
 })
 
 describe('receive', () => {

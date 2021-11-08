@@ -40,6 +40,12 @@ export type Agent<T> = {
    */
   send: PayloadMethod
   /**
+   * Returns the send method. Used in contexts where it might
+   * change between sessions, like browser refresh/hot/livereload.
+   * @override
+   */
+  deferredSend: () => PayloadMethod
+  /**
    * Called by the user with the payload when it is received from their transport.
    * @private
    */
@@ -170,6 +176,7 @@ export class AliceBob<A, B> {
           if (error) this.local.log(error)
         }
       } else {
+        // eslint-disable-next-line
         ;(this.local as unknown as AgentRecord<void>)[method](...args)
       }
     }
@@ -179,10 +186,15 @@ export class AliceBob<A, B> {
       name: 'local',
       send:
         send ??
-        (() => {
-          throw new TypeError(
-            `${this.local.name}.send(payload) method must be provided.`
-          )
+        (data => {
+          if (this.local.deferredSend) {
+            this.local.send = this.local.deferredSend()
+            this.local.send(data)
+          } else {
+            throw new TypeError(
+              `${this.local.name}.send(payload) method must be provided.`
+            )
+          }
         }),
       receive: this.receive,
       log: (...args: unknown[]) =>
