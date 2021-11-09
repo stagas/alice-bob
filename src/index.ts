@@ -67,11 +67,11 @@ export type Agent<T> = {
   __reject__: (id: number, message: string) => void
 } & T
 
-interface AgentsOptions {
+export interface AgentsOptions {
   debug?: boolean
 }
 
-type AgentRecord<T> = Record<string | symbol, (...args: unknown[]) => T>
+export type AgentRecord<T> = Record<string | symbol, (...args: unknown[]) => T>
 
 /**
  * AliceBob class.
