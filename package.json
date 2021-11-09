@@ -3,7 +3,7 @@
   "author": "stagas",
   "short": "stagas/alice-bob",
   "description": "transport agnostic strongly typed duplex rpc interfaces",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "license": "MIT",
   "repository": {
     "type": "git",
