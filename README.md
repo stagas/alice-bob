@@ -143,13 +143,13 @@ bob.hello = async (message, { iam }) => {
 
 ### Payload
 
-[src/index.ts:6-19](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L6-L19 "Source code on GitHub")
+[src/index.ts:6-19](https://github.com/stagas/alice-bob/blob/49f3271f05164b93761078f72c5b81df75400102/src/index.ts#L6-L19 "Source code on GitHub")
 
 Payload.
 
 #### id
 
-[src/index.ts:10-10](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L10-L10 "Source code on GitHub")
+[src/index.ts:10-10](https://github.com/stagas/alice-bob/blob/49f3271f05164b93761078f72c5b81df75400102/src/index.ts#L10-L10 "Source code on GitHub")
 
 Payload id.
 
@@ -157,7 +157,7 @@ Type: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Globa
 
 #### method
 
-[src/index.ts:14-14](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L14-L14 "Source code on GitHub")
+[src/index.ts:14-14](https://github.com/stagas/alice-bob/blob/49f3271f05164b93761078f72c5b81df75400102/src/index.ts#L14-L14 "Source code on GitHub")
 
 Method to call.
 
@@ -165,7 +165,7 @@ Type: any
 
 #### args
 
-[src/index.ts:18-18](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L18-L18 "Source code on GitHub")
+[src/index.ts:18-18](https://github.com/stagas/alice-bob/blob/49f3271f05164b93761078f72c5b81df75400102/src/index.ts#L18-L18 "Source code on GitHub")
 
 The arguments passed to the method.
 
@@ -173,7 +173,7 @@ Type: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global
 
 ### Agent
 
-[src/index.ts:28-70](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L25-L27 "Source code on GitHub")
+[src/index.ts:28-70](https://github.com/stagas/alice-bob/blob/49f3271f05164b93761078f72c5b81df75400102/src/index.ts#L25-L27 "Source code on GitHub")
 
 Agent.
 
@@ -181,7 +181,7 @@ Type: any
 
 #### debug
 
-[src/index.ts:32-32](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L32-L32 "Source code on GitHub")
+[src/index.ts:32-32](https://github.com/stagas/alice-bob/blob/49f3271f05164b93761078f72c5b81df75400102/src/index.ts#L32-L32 "Source code on GitHub")
 
 Whether or not to log debugging information.
 
@@ -189,7 +189,7 @@ Type: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Glob
 
 #### name
 
-[src/index.ts:38-38](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L38-L38 "Source code on GitHub")
+[src/index.ts:38-38](https://github.com/stagas/alice-bob/blob/49f3271f05164b93761078f72c5b81df75400102/src/index.ts#L38-L38 "Source code on GitHub")
 
 The name of the agent. Defaults to either 'alice' or 'bob' depending
 on the constructor used, Alice or Bob.
@@ -198,7 +198,7 @@ Type: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Globa
 
 #### send
 
-[src/index.ts:43-43](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L43-L43 "Source code on GitHub")
+[src/index.ts:43-43](https://github.com/stagas/alice-bob/blob/49f3271f05164b93761078f72c5b81df75400102/src/index.ts#L43-L43 "Source code on GitHub")
 
 The send method overriden by the user to any transport.
 
@@ -206,7 +206,7 @@ Type: PayloadMethod<[Agent](#agent)\<B, A>>
 
 #### deferredSend
 
-[src/index.ts:49-49](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L49-L49 "Source code on GitHub")
+[src/index.ts:49-49](https://github.com/stagas/alice-bob/blob/49f3271f05164b93761078f72c5b81df75400102/src/index.ts#L49-L49 "Source code on GitHub")
 
 Returns the send method. Used in contexts where it might
 change between sessions, like browser refresh/hot/livereload.
@@ -215,7 +215,7 @@ Type: function (): PayloadMethod<[Agent](#agent)\<B, A>>
 
 #### log
 
-[src/index.ts:59-59](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L59-L59 "Source code on GitHub")
+[src/index.ts:59-59](https://github.com/stagas/alice-bob/blob/49f3271f05164b93761078f72c5b81df75400102/src/index.ts#L59-L59 "Source code on GitHub")
 
 Overridable logging function. Defaults to `console.log()` and prepends `agent.name`.
 
@@ -223,7 +223,7 @@ Type: function (...args: [Array](https://developer.mozilla.org/docs/Web/JavaScri
 
 ### AliceBob
 
-[src/index.ts:78-283](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L78-L283 "Source code on GitHub")
+[src/index.ts:78-283](https://github.com/stagas/alice-bob/blob/49f3271f05164b93761078f72c5b81df75400102/src/index.ts#L78-L283 "Source code on GitHub")
 
 AliceBob class.
 
@@ -233,7 +233,7 @@ AliceBob class.
 
 #### local
 
-[src/index.ts:91-91](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L91-L91 "Source code on GitHub")
+[src/index.ts:91-91](https://github.com/stagas/alice-bob/blob/49f3271f05164b93761078f72c5b81df75400102/src/index.ts#L91-L91 "Source code on GitHub")
 
 The local Agent.
 
@@ -241,7 +241,7 @@ Type: [Agent](#agent)\<A, B>
 
 #### remote
 
-[src/index.ts:95-95](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L95-L95 "Source code on GitHub")
+[src/index.ts:95-95](https://github.com/stagas/alice-bob/blob/49f3271f05164b93761078f72c5b81df75400102/src/index.ts#L95-L95 "Source code on GitHub")
 
 The remote Agent.
 
@@ -249,7 +249,7 @@ Type: [Agent](#agent)\<B, A>
 
 #### agents
 
-[src/index.ts:275-282](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L275-L282 "Source code on GitHub")
+[src/index.ts:275-282](https://github.com/stagas/alice-bob/blob/49f3271f05164b93761078f72c5b81df75400102/src/index.ts#L275-L282 "Source code on GitHub")
 
 Returns the agents tuple `[alice, bob]`.
 
@@ -275,7 +275,7 @@ const [alice, bob] = new Alice<Local, Remote>().agents(
 
 ### Alice
 
-[src/index.ts:291-301](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L291-L301 "Source code on GitHub")
+[src/index.ts:291-301](https://github.com/stagas/alice-bob/blob/49f3271f05164b93761078f72c5b81df75400102/src/index.ts#L291-L301 "Source code on GitHub")
 
 **Extends AliceBob**
 
@@ -287,7 +287,7 @@ Alice class.
 
 ### Bob
 
-[src/index.ts:309-319](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L309-L319 "Source code on GitHub")
+[src/index.ts:309-319](https://github.com/stagas/alice-bob/blob/49f3271f05164b93761078f72c5b81df75400102/src/index.ts#L309-L319 "Source code on GitHub")
 
 **Extends AliceBob**
 
