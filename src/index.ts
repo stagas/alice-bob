@@ -260,13 +260,26 @@ export class AliceBob<A, B> {
    * Example:
    * ```ts
    * const [alice, bob] = new Alice<Local, Remote>().agents()
+   *
+   * // to enable debugging on local (alice)
+   * const [alice, bob] = new Alice<Local, Remote>().agents({ debug: true })
+   *
+   * // use different names:
+   * const [alice, bob] = new Alice<Local, Remote>().agents(
+   *   { name: 'server', debug: true },
+   *   { name: 'client' }
+   * )
    * ```
    *
-   * @param [options]
-   * @param [options.debug] Whether to enable debugging.
+   * @param [local] Local agent overrides.
+   * @param [remote] Remote agent overrides.
    */
-  agents({ debug = false }: AgentsOptions = { debug: false }) {
-    this.local.debug = debug
+  agents(
+    local?: Partial<Agent<A, B>> | null,
+    remote?: Partial<Agent<B, A>> | null
+  ) {
+    Object.assign(this.local, local)
+    Object.assign(this.remote, remote)
     return [this.local, this.remote] as [typeof this.local, typeof this.remote]
   }
 }

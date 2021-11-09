@@ -263,3 +263,17 @@ describe('debug=true', () => {
     expect(log.mock.calls[0][4]).toEqual(['there'])
   })
 })
+
+describe('agentOptions', () => {
+  it('local overrides', () => {
+    const [alice] = new AliceBob().agents({ debug: true, name: 'server' })
+    expect(alice.debug).toEqual(true)
+    expect(alice.name).toEqual('server')
+  })
+
+  it('remote overrides', () => {
+    const [, bob] = new AliceBob().agents(null, { debug: true, name: 'client' })
+    expect(bob.debug).toEqual(true)
+    expect(bob.name).toEqual('client')
+  })
+})
