@@ -25,7 +25,7 @@ const child = fork(join(__dirname, 'bob'))
 // the AliceBob class, the only thing they change is they have
 // the names "alice" and "bob" preconfigured in their agents
 const [alice, bob] = new Alice<Local, Remote>(
-  data => void child.send(data)
+  data => void child.send(data),
 ).agents()
 
 // all messages from bob passed to alice.receive

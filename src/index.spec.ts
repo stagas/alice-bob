@@ -80,7 +80,7 @@ describe('send', () => {
     const [, bob] = new AliceBob<void, Remote>().agents()
     expect(bob.hello('there')).rejects.toEqual(
       // TODO: test just contains "must be provided"
-      new TypeError('local.send(payload) method must be provided.')
+      new TypeError('local.send(payload) method must be provided.'),
     )
   })
 
@@ -148,8 +148,8 @@ describe('callbacks', () => {
             resolve(value)
           },
           150,
-          a + b
-        )
+          a + b,
+        ),
       )
     const result = await _bob.hello(2, 3)
     expect(asyncValue).toEqual('pass')
@@ -173,8 +173,8 @@ describe('callbacks', () => {
             resolve(value)
           },
           150,
-          a + b
-        )
+          a + b,
+        ),
       )
     const result = await _bob.hello(2, 3)
     expect(asyncValue).toEqual('pass')
@@ -194,6 +194,22 @@ describe('callbacks', () => {
     await expect(_bob.hello(2, 3)).rejects.toEqual(new Error('it failed'))
   })
 
+  it('pass exceptions back to the caller and log with debug=true', async () => {
+    interface Remote {
+      hello: (a: number, b: number) => Promise<number>
+    }
+    const [alice, _bob] = new AliceBob<void, Remote>().agents()
+    const [bob] = new AliceBob<Remote, void>().agents({ debug: true })
+    const fn = jest.fn()
+    bob.log = fn
+    alice.send = bob.receive
+    bob.send = alice.receive
+    bob.hello = async (_a: number, _b: number) =>
+      new Promise<number>((_, r) => setTimeout(r, 5, new Error('it failed')))
+    await expect(_bob.hello(2, 3)).rejects.toEqual(new Error('it failed'))
+    expect(fn.mock.calls[2][0].message).toContain('it failed')
+  })
+
   it('throw when missing', async () => {
     interface Remote {
       hello: (a: number, b: number) => Promise<number>
@@ -205,8 +221,8 @@ describe('callbacks', () => {
     await expect(_bob.hello(2, 3)).rejects.toEqual(
       new TypeError(
         // TODO: not such strict error message matching
-        'Agent method "hello" is not a function. Instead found: undefined'
-      )
+        'Agent method "hello" is not a function. Instead found: undefined',
+      ),
     )
   })
 })

@@ -19,7 +19,7 @@ export interface Payload<T> {
 }
 
 export type PayloadMethod<T> = (
-  payload: Payload<T>
+  payload: Payload<T>,
 ) => Promise<unknown> | unknown
 
 /**
@@ -118,7 +118,7 @@ export class AliceBob<A, B> {
           `${id} ${this.local.name}`.padEnd(12),
           '│',
           method,
-          args
+          args,
         )
       return this.local.send({ id, method, args })
     }
@@ -136,7 +136,7 @@ export class AliceBob<A, B> {
           `${this.remote.name} ${id}`.padStart(12),
           '<┤',
           method,
-          args
+          args,
         )
 
       let error: Error | void
@@ -145,7 +145,7 @@ export class AliceBob<A, B> {
       const fn = this.local[method]
       if (typeof fn !== 'function') {
         throw new TypeError(
-          `Agent method "${method.toString()}" is not a function. Instead found: ${typeof fn}`
+          `Agent method "${method.toString()}" is not a function. Instead found: ${typeof fn}`,
         )
       }
 
@@ -158,7 +158,7 @@ export class AliceBob<A, B> {
           await this.send({
             id: ++this.id,
             method: '__resolve__',
-            args: [id, result]
+            args: [id, result],
           })
       } catch (e: unknown) {
         error = e as Error
@@ -167,14 +167,14 @@ export class AliceBob<A, B> {
           await this.send({
             id: ++this.id,
             method: '__reject__',
-            args: [id, error.message]
+            args: [id, error.message],
           })
       } finally {
         // we log instead of throwing because the
         // error belongs to the caller(remote).
         // we don't want the remote to be able to
         // raise exceptions in our execution thread
-        if (error) this.local.log(error)
+        if (error && this.local.debug) this.local.log(error)
       }
 
       return result
@@ -190,7 +190,7 @@ export class AliceBob<A, B> {
             return this.local.deferredSend()(data)
           } else {
             throw new TypeError(
-              `${this.local.name}.send(payload) method must be provided.`
+              `${this.local.name}.send(payload) method must be provided.`,
             )
           }
         }),
@@ -199,12 +199,12 @@ export class AliceBob<A, B> {
         console.log(this.local.name.padStart(10) + ':', ...args),
       __resolve__: (id, result) => pop(this.callbacks, id).resolve(result),
       __reject__: (id, message) =>
-        pop(this.callbacks, id).reject(new Error(message))
+        pop(this.callbacks, id).reject(new Error(message)),
     } as Agent<A, B>
 
     this.remote = new Proxy<typeof this.remote>(
       <typeof this.remote>{
-        name: 'remote'
+        name: 'remote',
       },
       {
         get: (target: Record<string | symbol, unknown>, prop) => {
@@ -215,7 +215,7 @@ export class AliceBob<A, B> {
             return async (...args: unknown[]) => {
               const id = ++this.id
               const promise = new Promise((resolve, reject) =>
-                this.callbacks.set(id, { resolve, reject })
+                this.callbacks.set(id, { resolve, reject }),
               )
 
               await this.send({ id, method, args })
@@ -235,8 +235,8 @@ export class AliceBob<A, B> {
         set: (target: Record<string | symbol, unknown>, prop, value) => {
           target[prop] = value
           return true
-        }
-      }
+        },
+      },
     )
   }
 
@@ -274,7 +274,7 @@ export class AliceBob<A, B> {
    */
   agents(
     local?: Partial<Agent<A, B>> | null,
-    remote?: Partial<Agent<B, A>> | null
+    remote?: Partial<Agent<B, A>> | null,
   ) {
     Object.assign(this.local, local)
     Object.assign(this.remote, remote)

@@ -143,13 +143,13 @@ bob.hello = async (message, { iam }) => {
 
 ### Payload
 
-[src/index.ts:6-19](https://github.com/stagas/alice-bob/blob/b63afb0d1105e8fd012dfb698294cd0868c5c8bc/src/index.ts#L6-L19 "Source code on GitHub")
+[src/index.ts:6-19](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L6-L19 "Source code on GitHub")
 
 Payload.
 
 #### id
 
-[src/index.ts:10-10](https://github.com/stagas/alice-bob/blob/b63afb0d1105e8fd012dfb698294cd0868c5c8bc/src/index.ts#L10-L10 "Source code on GitHub")
+[src/index.ts:10-10](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L10-L10 "Source code on GitHub")
 
 Payload id.
 
@@ -157,15 +157,15 @@ Type: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Globa
 
 #### method
 
-[src/index.ts:14-14](https://github.com/stagas/alice-bob/blob/b63afb0d1105e8fd012dfb698294cd0868c5c8bc/src/index.ts#L14-L14 "Source code on GitHub")
+[src/index.ts:14-14](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L14-L14 "Source code on GitHub")
 
 Method to call.
 
-Type: ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [symbol](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol))
+Type: any
 
 #### args
 
-[src/index.ts:18-18](https://github.com/stagas/alice-bob/blob/b63afb0d1105e8fd012dfb698294cd0868c5c8bc/src/index.ts#L18-L18 "Source code on GitHub")
+[src/index.ts:18-18](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L18-L18 "Source code on GitHub")
 
 The arguments passed to the method.
 
@@ -173,7 +173,7 @@ Type: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global
 
 ### Agent
 
-[src/index.ts:26-68](https://github.com/stagas/alice-bob/blob/b63afb0d1105e8fd012dfb698294cd0868c5c8bc/src/index.ts#L23-L25 "Source code on GitHub")
+[src/index.ts:28-70](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L25-L27 "Source code on GitHub")
 
 Agent.
 
@@ -181,7 +181,7 @@ Type: any
 
 #### debug
 
-[src/index.ts:30-30](https://github.com/stagas/alice-bob/blob/b63afb0d1105e8fd012dfb698294cd0868c5c8bc/src/index.ts#L30-L30 "Source code on GitHub")
+[src/index.ts:32-32](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L32-L32 "Source code on GitHub")
 
 Whether or not to log debugging information.
 
@@ -189,7 +189,7 @@ Type: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Glob
 
 #### name
 
-[src/index.ts:36-36](https://github.com/stagas/alice-bob/blob/b63afb0d1105e8fd012dfb698294cd0868c5c8bc/src/index.ts#L36-L36 "Source code on GitHub")
+[src/index.ts:38-38](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L38-L38 "Source code on GitHub")
 
 The name of the agent. Defaults to either 'alice' or 'bob' depending
 on the constructor used, Alice or Bob.
@@ -198,24 +198,24 @@ Type: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Globa
 
 #### send
 
-[src/index.ts:41-41](https://github.com/stagas/alice-bob/blob/b63afb0d1105e8fd012dfb698294cd0868c5c8bc/src/index.ts#L41-L41 "Source code on GitHub")
+[src/index.ts:43-43](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L43-L43 "Source code on GitHub")
 
 The send method overriden by the user to any transport.
 
-Type: PayloadMethod
+Type: PayloadMethod<[Agent](#agent)\<B, A>>
 
 #### deferredSend
 
-[src/index.ts:47-47](https://github.com/stagas/alice-bob/blob/b63afb0d1105e8fd012dfb698294cd0868c5c8bc/src/index.ts#L47-L47 "Source code on GitHub")
+[src/index.ts:49-49](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L49-L49 "Source code on GitHub")
 
 Returns the send method. Used in contexts where it might
 change between sessions, like browser refresh/hot/livereload.
 
-Type: function (): PayloadMethod
+Type: function (): PayloadMethod<[Agent](#agent)\<B, A>>
 
 #### log
 
-[src/index.ts:57-57](https://github.com/stagas/alice-bob/blob/b63afb0d1105e8fd012dfb698294cd0868c5c8bc/src/index.ts#L57-L57 "Source code on GitHub")
+[src/index.ts:59-59](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L59-L59 "Source code on GitHub")
 
 Overridable logging function. Defaults to `console.log()` and prepends `agent.name`.
 
@@ -223,33 +223,33 @@ Type: function (...args: [Array](https://developer.mozilla.org/docs/Web/JavaScri
 
 ### AliceBob
 
-[src/index.ts:82-269](https://github.com/stagas/alice-bob/blob/b63afb0d1105e8fd012dfb698294cd0868c5c8bc/src/index.ts#L82-L269 "Source code on GitHub")
+[src/index.ts:78-283](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L78-L283 "Source code on GitHub")
 
 AliceBob class.
 
 #### Parameters
 
-*   `send` **PayloadMethod?** The `send` payload method provided by the user. Will be called with a payload to be sent.
+*   `send` **PayloadMethod<[Agent](#agent)\<A, B>>?** The `send` payload method provided by the user. Will be called with a payload to be sent.
 
 #### local
 
-[src/index.ts:95-95](https://github.com/stagas/alice-bob/blob/b63afb0d1105e8fd012dfb698294cd0868c5c8bc/src/index.ts#L95-L95 "Source code on GitHub")
+[src/index.ts:91-91](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L91-L91 "Source code on GitHub")
 
 The local Agent.
 
-Type: [Agent](#agent)\<A>
+Type: [Agent](#agent)\<A, B>
 
 #### remote
 
-[src/index.ts:99-99](https://github.com/stagas/alice-bob/blob/b63afb0d1105e8fd012dfb698294cd0868c5c8bc/src/index.ts#L99-L99 "Source code on GitHub")
+[src/index.ts:95-95](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L95-L95 "Source code on GitHub")
 
 The remote Agent.
 
-Type: [Agent](#agent)\<B>
+Type: [Agent](#agent)\<B, A>
 
 #### agents
 
-[src/index.ts:265-268](https://github.com/stagas/alice-bob/blob/b63afb0d1105e8fd012dfb698294cd0868c5c8bc/src/index.ts#L265-L268 "Source code on GitHub")
+[src/index.ts:275-282](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L275-L282 "Source code on GitHub")
 
 Returns the agents tuple `[alice, bob]`.
 
@@ -257,17 +257,25 @@ Example:
 
 ```ts
 const [alice, bob] = new Alice<Local, Remote>().agents()
+
+// to enable debugging on local (alice)
+const [alice, bob] = new Alice<Local, Remote>().agents({ debug: true })
+
+// use different names:
+const [alice, bob] = new Alice<Local, Remote>().agents(
+  { name: 'server', debug: true },
+  { name: 'client' }
+)
 ```
 
 ##### Parameters
 
-*   `options` **AgentsOptions**  (optional, default `{debug:false}`)
-
-    *   `options.debug`  Whether to enable debugging. (optional, default `false`)
+*   `local` **(Partial<[Agent](#agent)\<A, B>> | null)?** Local agent overrides.
+*   `remote` **(Partial<[Agent](#agent)\<B, A>> | null)?** Remote agent overrides.
 
 ### Alice
 
-[src/index.ts:277-287](https://github.com/stagas/alice-bob/blob/b63afb0d1105e8fd012dfb698294cd0868c5c8bc/src/index.ts#L277-L287 "Source code on GitHub")
+[src/index.ts:291-301](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L291-L301 "Source code on GitHub")
 
 **Extends AliceBob**
 
@@ -275,11 +283,11 @@ Alice class.
 
 #### Parameters
 
-*   `send` **PayloadMethod?** The `send` payload method provided by the user. Will be called with a payload to be sent.
+*   `send` **PayloadMethod<[Agent](#agent)\<A, B>>?** The `send` payload method provided by the user. Will be called with a payload to be sent.
 
 ### Bob
 
-[src/index.ts:295-305](https://github.com/stagas/alice-bob/blob/b63afb0d1105e8fd012dfb698294cd0868c5c8bc/src/index.ts#L295-L305 "Source code on GitHub")
+[src/index.ts:309-319](https://github.com/stagas/alice-bob/blob/ce6508f3ab077fd9e18e006f4d287b53d315776f/src/index.ts#L309-L319 "Source code on GitHub")
 
 **Extends AliceBob**
 
@@ -287,7 +295,7 @@ Bob class.
 
 #### Parameters
 
-*   `send` **PayloadMethod?** The `send` payload method provided by the user. Will be called with a payload to be sent.
+*   `send` **PayloadMethod<[Agent](#agent)\<A, B>>?** The `send` payload method provided by the user. Will be called with a payload to be sent.
 
 ## Contribute
 
