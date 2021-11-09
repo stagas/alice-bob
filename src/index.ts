@@ -3,7 +3,7 @@ import { pop } from './util'
 /**
  * Payload.
  */
-export interface Payload {
+export interface Payload<T> {
   /**
    * Payload id.
    */
@@ -11,19 +11,21 @@ export interface Payload {
   /**
    * Method to call.
    */
-  method: string | symbol
+  method: keyof T
   /**
    * The arguments passed to the method.
    */
   args: unknown[]
 }
 
-export type PayloadMethod = (payload: Payload) => Promise<void> | void
+export type PayloadMethod<T> = (
+  payload: Payload<T>
+) => Promise<unknown> | unknown
 
 /**
  * Agent.
  */
-export type Agent<T> = {
+export type Agent<A, B> = {
   /**
    * Whether or not to log debugging information.
    */
@@ -38,18 +40,18 @@ export type Agent<T> = {
    * The send method overriden by the user to any transport.
    * @override
    */
-  send: PayloadMethod
+  send: PayloadMethod<Agent<B, A>>
   /**
    * Returns the send method. Used in contexts where it might
    * change between sessions, like browser refresh/hot/livereload.
    * @override
    */
-  deferredSend: () => PayloadMethod
+  deferredSend: () => PayloadMethod<Agent<B, A>>
   /**
    * Called by the user with the payload when it is received from their transport.
    * @private
    */
-  receive: PayloadMethod
+  receive: PayloadMethod<Agent<A, B>>
   /**
    * Overridable logging function. Defaults to `console.log()` and prepends `agent.name`.
    * @override
@@ -65,13 +67,7 @@ export type Agent<T> = {
    * @private
    */
   __reject__: (id: number, message: string) => void
-} & T
-
-export interface AgentsOptions {
-  debug?: boolean
-}
-
-export type AgentRecord<T> = Record<string | symbol, (...args: unknown[]) => T>
+} & A
 
 /**
  * AliceBob class.
@@ -92,30 +88,30 @@ export class AliceBob<A, B> {
   /**
    * The local Agent.
    */
-  local: Agent<A>
+  local: Agent<A, B>
   /**
    * The remote Agent.
    */
-  remote: Agent<B>
+  remote: Agent<B, A>
 
-  private send: PayloadMethod
+  private send: PayloadMethod<Agent<B, A>>
   /**
    * @private
    */
-  private receive: PayloadMethod
+  private receive: PayloadMethod<Agent<A, B>>
 
   /**
    * Creates an instance of AliceBob.
    * @param [send] The `send` payload method provided by the user. Will be called with a payload to be sent.
    */
-  constructor(send?: PayloadMethod) {
+  constructor(send?: PayloadMethod<Agent<A, B>>) {
     /**
      * Sends message using the agent's send method.
      *
      * @private
      * @param payload
      */
-    this.send = ({ id, method, args }: Payload) => {
+    this.send = ({ id, method, args }) => {
       if (this.local.debug)
         this.local.log(
           ' ├> SEND ├>',
@@ -124,7 +120,6 @@ export class AliceBob<A, B> {
           method,
           args
         )
-      // this.local.log(' ├> SEND ├>', id, this.remote.name.padEnd(10), '│', method, args)
       return this.local.send({ id, method, args })
     }
 
@@ -134,7 +129,7 @@ export class AliceBob<A, B> {
      * @private
      * @param payload
      */
-    this.receive = async ({ id, method, args }: Payload) => {
+    this.receive = async ({ id, method, args }) => {
       if (this.local.debug)
         this.local.log(
           '<┤  RECV │',
@@ -185,7 +180,7 @@ export class AliceBob<A, B> {
       return result
     }
 
-    this.local = <typeof this.local>{
+    this.local = {
       debug: false,
       name: 'local',
       send:
@@ -205,7 +200,7 @@ export class AliceBob<A, B> {
       __resolve__: (id, result) => pop(this.callbacks, id).resolve(result),
       __reject__: (id, message) =>
         pop(this.callbacks, id).reject(new Error(message))
-    }
+    } as Agent<A, B>
 
     this.remote = new Proxy<typeof this.remote>(
       <typeof this.remote>{
@@ -216,7 +211,7 @@ export class AliceBob<A, B> {
           if (prop in target) {
             return target[prop]
           } else {
-            const method = prop
+            const method = prop as keyof B
             return async (...args: unknown[]) => {
               const id = ++this.id
               const promise = new Promise((resolve, reject) =>
@@ -248,6 +243,9 @@ export class AliceBob<A, B> {
   // TODO: unfortunately these cannot be typed
   // correctly as we cannot have tuple generator types
   // but in the future this might change so we keep it
+  // because it allows for:
+  //
+  // const [alice, bob] = new Alice()
   //
   // *[Symbol.iterator]() {
   //   yield this.local
@@ -295,7 +293,7 @@ export class Alice<A, B> extends AliceBob<A, B> {
    * Creates an instance of Alice.
    * @param [send] The `send` payload method provided by the user. Will be called with a payload to be sent.
    */
-  constructor(send?: PayloadMethod) {
+  constructor(send?: PayloadMethod<Agent<A, B>>) {
     super(send)
     this.local.name = 'alice'
     this.remote.name = 'bob'
@@ -313,7 +311,7 @@ export class Bob<A, B> extends AliceBob<A, B> {
    * Creates an instance of Bob.
    * @param [send] The `send` payload method provided by the user. Will be called with a payload to be sent.
    */
-  constructor(send?: PayloadMethod) {
+  constructor(send?: PayloadMethod<Agent<A, B>>) {
     super(send)
     this.local.name = 'bob'
     this.remote.name = 'alice'
