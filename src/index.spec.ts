@@ -131,7 +131,57 @@ describe('callbacks', () => {
     expect(result).toEqual(5)
   })
 
-  it('exceptions should pass back to the caller', async () => {
+  it('wait for async return (ack)', async () => {
+    interface Remote {
+      hello: (a: number, b: number) => Promise<number>
+    }
+    const [alice, _bob] = new AliceBob<void, Remote>().agents()
+    const [bob] = new AliceBob<Remote, void>().agents()
+    alice.send = bob.receive
+    bob.send = alice.receive
+    let asyncValue = 'fail'
+    bob.hello = async (a: number, b: number) =>
+      new Promise<number>(resolve =>
+        setTimeout(
+          (value: number) => {
+            asyncValue = 'pass'
+            resolve(value)
+          },
+          150,
+          a + b
+        )
+      )
+    const result = await _bob.hello(2, 3)
+    expect(asyncValue).toEqual('pass')
+    expect(result).toEqual(5)
+  })
+
+  it('wait for async return (ack) for deferredSend', async () => {
+    interface Remote {
+      hello: (a: number, b: number) => Promise<number>
+    }
+    const [alice, _bob] = new AliceBob<void, Remote>().agents()
+    const [bob] = new AliceBob<Remote, void>().agents()
+    alice.deferredSend = () => bob.receive
+    bob.deferredSend = () => alice.receive
+    let asyncValue = 'fail'
+    bob.hello = (a: number, b: number) =>
+      new Promise<number>(resolve =>
+        setTimeout(
+          (value: number) => {
+            asyncValue = 'pass'
+            resolve(value)
+          },
+          150,
+          a + b
+        )
+      )
+    const result = await _bob.hello(2, 3)
+    expect(asyncValue).toEqual('pass')
+    expect(result).toEqual(5)
+  })
+
+  it('pass exceptions back to the caller', async () => {
     interface Remote {
       hello: (a: number, b: number) => Promise<number>
     }
@@ -142,6 +192,22 @@ describe('callbacks', () => {
     bob.hello = async (_a: number, _b: number) =>
       new Promise<number>((_, r) => setTimeout(r, 5, new Error('it failed')))
     await expect(_bob.hello(2, 3)).rejects.toEqual(new Error('it failed'))
+  })
+
+  it('throw when missing', async () => {
+    interface Remote {
+      hello: (a: number, b: number) => Promise<number>
+    }
+    const [alice, _bob] = new AliceBob<void, Remote>().agents()
+    const [bob] = new AliceBob<Remote, void>().agents()
+    alice.send = bob.receive
+    bob.send = alice.receive
+    await expect(_bob.hello(2, 3)).rejects.toEqual(
+      new TypeError(
+        // TODO: not such strict error message matching
+        'Agent method "hello" is not a function. Instead found: undefined'
+      )
+    )
   })
 })
 

@@ -143,42 +143,46 @@ export class AliceBob<A, B> {
           method,
           args
         )
-      // this.local.log('<┤  RECV │', this.remote.name.padStart(10), id, '<┤', method, args)
+
+      let error: Error | void
+      let result: unknown
+
+      const fn = this.local[method]
+      if (typeof fn !== 'function') {
+        throw new TypeError(
+          `Agent method "${method.toString()}" is not a function. Instead found: ${typeof fn}`
+        )
+      }
 
       const hasCallback = typeof method === 'string' && method[0] !== '_'
 
-      if (hasCallback) {
-        // save `error` out of try catch scope so we can report in `finally`
-        // otherwise if `this.send()` throws earlier we lose it
-        let error: Error | void
+      try {
+        result = await fn(...args)
 
-        try {
-          const result = await (
-            this.local as unknown as AgentRecord<Promise<void>>
-          )[method](...args)
+        if (hasCallback)
           await this.send({
             id: ++this.id,
             method: '__resolve__',
             args: [id, result]
           })
-        } catch (e: unknown) {
-          error = e as Error
+      } catch (e: unknown) {
+        error = e as Error
+
+        if (hasCallback)
           await this.send({
             id: ++this.id,
             method: '__reject__',
             args: [id, error.message]
           })
-        } finally {
-          // we log instead of throwing because the
-          // error belongs to the caller(remote).
-          // we don't want the remote to be able to
-          // raise exceptions in our execution thread
-          if (error) this.local.log(error)
-        }
-      } else {
-        // eslint-disable-next-line
-        ;(this.local as unknown as AgentRecord<void>)[method](...args)
+      } finally {
+        // we log instead of throwing because the
+        // error belongs to the caller(remote).
+        // we don't want the remote to be able to
+        // raise exceptions in our execution thread
+        if (error) this.local.log(error)
       }
+
+      return result
     }
 
     this.local = <typeof this.local>{
@@ -188,8 +192,7 @@ export class AliceBob<A, B> {
         send ??
         (data => {
           if (this.local.deferredSend) {
-            this.local.send = this.local.deferredSend()
-            this.local.send(data)
+            return this.local.deferredSend()(data)
           } else {
             throw new TypeError(
               `${this.local.name}.send(payload) method must be provided.`
