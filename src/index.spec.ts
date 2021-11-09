@@ -236,12 +236,10 @@ describe('debug=true', () => {
     const [bob] = new AliceBob<Remote, void>().agents({ debug: true })
     const receive = jest.spyOn(bob, 'receive')
     const fn = jest.fn()
-    const logA = jest.fn()
-    const logB = jest.fn()
+    const logA = jest.spyOn(alice, 'log')
+    const logB = jest.spyOn(bob, 'log')
     alice.send = bob.receive
     bob.send = alice.receive
-    alice.log = logA
-    bob.log = logB
     bob.hello = fn
     _bob.hello('there')
     expect(receive).toBeCalledTimes(1)
