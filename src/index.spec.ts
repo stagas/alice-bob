@@ -1,47 +1,47 @@
 import { AliceBob, Alice, Bob } from './'
 
 describe('AliceBob', () => {
-  it('should create an AliceBob instance', () => {
+  it('create an AliceBob instance', () => {
     const alicebob = new AliceBob()
     expect(alicebob).toBeInstanceOf(AliceBob)
   })
 
-  it('should accept a send method', () => {
+  it('accept a send method', () => {
     const alicebob = new AliceBob(_ => void 0)
     expect(alicebob).toBeInstanceOf(AliceBob)
   })
 })
 
 describe('Alice', () => {
-  it('should create an Alice instance', () => {
+  it('create an Alice instance', () => {
     const alice = new Alice()
     expect(alice).toBeInstanceOf(Alice)
     expect(alice.local.name).toEqual('alice')
     expect(alice.remote.name).toEqual('bob')
   })
 
-  it('should accept a send method', () => {
+  it('accept a send method', () => {
     const alice = new Alice(_ => void 0)
     expect(alice).toBeInstanceOf(Alice)
   })
 })
 
 describe('Bob', () => {
-  it('should create an Alice instance', () => {
+  it('create an Alice instance', () => {
     const bob = new Bob()
     expect(bob).toBeInstanceOf(Bob)
     expect(bob.local.name).toEqual('bob')
     expect(bob.remote.name).toEqual('alice')
   })
 
-  it('should accept a send method', () => {
+  it('accept a send method', () => {
     const bob = new Bob(_ => void 0)
     expect(bob).toBeInstanceOf(Bob)
   })
 })
 
 describe('.agents', () => {
-  it('should return [local, remote] tuple', () => {
+  it('return [local, remote] tuple', () => {
     const rpc = new AliceBob()
     const [alice, bob] = rpc.agents()
     expect(alice).toBe(rpc.local)
@@ -50,7 +50,7 @@ describe('.agents', () => {
     expect(bob.name).toEqual('remote')
   })
 
-  it('should accepts options objects', () => {
+  it('accepts options objects', () => {
     const rpc = new AliceBob()
     const [alice, bob] = rpc.agents({})
     expect(alice).toBe(rpc.local)
@@ -61,7 +61,7 @@ describe('.agents', () => {
 })
 
 describe('send', () => {
-  it('should pass payload', () => {
+  it('passes payload', () => {
     interface Remote {
       hello: (arg: string) => void
     }
@@ -73,7 +73,7 @@ describe('send', () => {
     expect(fn).toBeCalledWith({ id: 0, method: 'hello', args: ['there'] })
   })
 
-  it('missing send should throw', () => {
+  it('throws when missing', () => {
     interface Remote {
       hello: (arg: string) => void
     }
@@ -84,7 +84,7 @@ describe('send', () => {
     )
   })
 
-  it('deferred send should work', () => {
+  it('deferred send work', () => {
     interface Remote {
       hello: (arg: string) => void
     }
@@ -98,7 +98,7 @@ describe('send', () => {
 })
 
 describe('receive', () => {
-  it('should pass payload', async () => {
+  it('passes payload', async () => {
     interface Remote {
       hello: (arg: string) => void
     }
@@ -117,7 +117,7 @@ describe('receive', () => {
 })
 
 describe('callbacks', () => {
-  it('should be async', async () => {
+  it('are async', async () => {
     interface Remote {
       hello: (a: number, b: number) => Promise<number>
     }
@@ -212,7 +212,7 @@ describe('callbacks', () => {
 })
 
 describe('debug=true', () => {
-  it('should call the log function with debug info', () => {
+  it('call the log function with debug info', () => {
     interface Remote {
       hello: (arg: string) => void
     }
@@ -243,7 +243,7 @@ describe('debug=true', () => {
     expect(logB.mock.calls[0][4]).toEqual(['there'])
   })
 
-  it('lazy add debug=true to agent should work', () => {
+  it('can be added lazily to agent', () => {
     interface Remote {
       hello: (arg: string) => void
     }
