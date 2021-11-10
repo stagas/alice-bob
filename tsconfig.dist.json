@@ -6,6 +6,7 @@
     "**/*.spec.tsx"
   ],
   "compilerOptions": {
-    "isolatedModules": true
+    "isolatedModules": true,
+    "inlineSources": true
   }
 }
