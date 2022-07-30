@@ -1,6 +1,6 @@
 // bob
 
-import { Bob } from '../../src'
+import { Bob } from '../../src/alice-bob'
 import type { Interface as Remote } from './alice'
 
 export interface Interface {
