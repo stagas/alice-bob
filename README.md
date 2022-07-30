@@ -15,7 +15,7 @@ transport agnostic strongly typed duplex rpc interfaces
  · <a href="https://github.com/stagas/alicebob/issues">   🖐️ <strong>Help</strong></a>
 </p>
 
-***
+---
 
 ## Install
 
@@ -120,26 +120,26 @@ bob.hello = async (message, { iam }) => {
 
 #### Table of Contents
 
-*   [Payload](#payload)
-    *   [id](#id)
-    *   [method](#method)
-    *   [args](#args)
-*   [Agent](#agent)
-    *   [debug](#debug)
-    *   [name](#name)
-    *   [send](#send)
-    *   [deferredSend](#deferredsend)
-    *   [log](#log)
-*   [AliceBob](#alicebob)
-    *   [Parameters](#parameters)
-    *   [local](#local)
-    *   [remote](#remote)
-    *   [agents](#agents)
-        *   [Parameters](#parameters-1)
-*   [Alice](#alice)
-    *   [Parameters](#parameters-2)
-*   [Bob](#bob)
-    *   [Parameters](#parameters-3)
+- [Payload](#payload)
+  - [id](#id)
+  - [method](#method)
+  - [args](#args)
+- [Agent](#agent)
+  - [debug](#debug)
+  - [name](#name)
+  - [send](#send)
+  - [deferredSend](#deferredsend)
+  - [log](#log)
+- [AliceBob](#alicebob)
+  - [Parameters](#parameters)
+  - [local](#local)
+  - [remote](#remote)
+  - [agents](#agents)
+    - [Parameters](#parameters-1)
+- [Alice](#alice)
+  - [Parameters](#parameters-2)
+- [Bob](#bob)
+  - [Parameters](#parameters-3)
 
 ### Payload
 
@@ -229,7 +229,7 @@ AliceBob class.
 
 #### Parameters
 
-*   `send` **PayloadMethod<[Agent](#agent)\<A, B>>?** The `send` payload method provided by the user. Will be called with a payload to be sent.
+- `send` **PayloadMethod<[Agent](#agent)\<A, B>>?** The `send` payload method provided by the user. Will be called with a payload to be sent.
 
 #### local
 
@@ -270,8 +270,8 @@ const [alice, bob] = new Alice<Local, Remote>().agents(
 
 ##### Parameters
 
-*   `local` **(Partial<[Agent](#agent)\<A, B>> | null)?** Local agent overrides.
-*   `remote` **(Partial<[Agent](#agent)\<B, A>> | null)?** Remote agent overrides.
+- `local` **(Partial<[Agent](#agent)\<A, B>> | null)?** Local agent overrides.
+- `remote` **(Partial<[Agent](#agent)\<B, A>> | null)?** Remote agent overrides.
 
 ### Alice
 
@@ -283,7 +283,7 @@ Alice class.
 
 #### Parameters
 
-*   `send` **PayloadMethod<[Agent](#agent)\<A, B>>?** The `send` payload method provided by the user. Will be called with a payload to be sent.
+- `send` **PayloadMethod<[Agent](#agent)\<A, B>>?** The `send` payload method provided by the user. Will be called with a payload to be sent.
 
 ### Bob
 
@@ -295,7 +295,7 @@ Bob class.
 
 #### Parameters
 
-*   `send` **PayloadMethod<[Agent](#agent)\<A, B>>?** The `send` payload method provided by the user. Will be called with a payload to be sent.
+- `send` **PayloadMethod<[Agent](#agent)\<A, B>>?** The `send` payload method provided by the user. Will be called with a payload to be sent.
 
 ## Contribute
 
